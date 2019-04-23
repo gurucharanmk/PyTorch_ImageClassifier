@@ -9,7 +9,6 @@ class ImageDataLoader(object):
         self,
         batch_size,
         image_folder,
-        image_label,
         image_augmentor,
         dataset_split_list=[
             'train',
@@ -17,7 +16,6 @@ class ImageDataLoader(object):
             'test']):
         self.batch_size = batch_size
         self.image_folder = image_folder
-        self.image_label = image_label
         self.image_augmentor = image_augmentor
         self.dataset_split_list = dataset_split_list
         self.image_transforms = {x: transforms.Compose(
@@ -36,4 +34,5 @@ class ImageDataLoader(object):
                 self.image_datasets[x],
                 batch_size=self.batch_size,
                 shuffle=True) for x in self.dataset_split_list}
-        return self.image_dataloaders
+        class_names = self.image_datasets['train'].classes
+        return self.image_dataloaders, class_names
